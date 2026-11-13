@@ -27,19 +27,20 @@ cp .env.example .env  # opcional en la Fase 0; GEMINI_API_KEY será obligatoria 
 pnpm dev              # servidor en modo watch
 ```
 
-Comprobar que está vivo: <http://localhost:8080/health>
+Comprobar que está vivo: <http://localhost:8080/health>. Con el servidor corriendo, `pnpm ws:probe` se conecta a `ws://localhost:8080/ws`, hace el handshake y muestra el estado del rostro.
 
 ## Scripts
 
-| Script           | Qué hace                                                |
-| ---------------- | ------------------------------------------------------- |
-| `pnpm dev`       | Servidor con recarga automática (`tsx watch`).          |
-| `pnpm build`     | Compila `packages/*` y `apps/*` a `dist/`.              |
-| `pnpm typecheck` | Verifica tipos en todos los paquetes.                   |
-| `pnpm lint`      | Lint y formato con Biome (solo revisa).                 |
-| `pnpm format`    | Aplica formato y correcciones seguras de Biome.         |
-| `pnpm test`      | Tests con Vitest.                                       |
-| `pnpm depcruise` | Verifica las reglas de capas de la arquitectura limpia. |
+| Script           | Qué hace                                                        |
+| ---------------- | --------------------------------------------------------------- |
+| `pnpm dev`       | Servidor con recarga automática (`tsx watch`).                  |
+| `pnpm ws:probe`  | Cliente de prueba del WebSocket: `hello` → `welcome` → `state`. |
+| `pnpm build`     | Compila `packages/*` y `apps/*` a `dist/`.                      |
+| `pnpm typecheck` | Verifica tipos en todos los paquetes.                           |
+| `pnpm lint`      | Lint y formato con Biome (solo revisa).                         |
+| `pnpm format`    | Aplica formato y correcciones seguras de Biome.                 |
+| `pnpm test`      | Tests con Vitest.                                               |
+| `pnpm depcruise` | Verifica las reglas de capas de la arquitectura limpia.         |
 
 ## Estructura
 

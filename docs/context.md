@@ -432,11 +432,12 @@ Antes de programar los ojos (hito 1.2) se dedican **como máximo 2 sesiones** a 
 4. El servidor envía `ping` cada **5 s**; si no recibe `pong` en **15 s**, cierra la conexión.
 5. Si se cae la conexión, el cliente muestra `desconectado` y reintenta con **backoff exponencial** (1 s, 2 s, 4 s… máximo 30 s).
 6. **Un solo rostro activo:** si se conecta un segundo cliente, el servidor cierra el anterior (código `4001`, "reemplazado").
+7. **Códigos de cierre propios** (constante `CLOSE_CODES` en `packages/protocol`): `4001` reemplazado, `4002` versión no soportada, `4003` sin `pong` dentro del plazo del heartbeat.
 
 ### 9.7 Versionado
 
 - El campo `v` identifica la versión del protocolo. Los cambios compatibles (campos nuevos opcionales) no suben la versión; los incompatibles suben a `v: 2`.
-- Si el servidor recibe un `hello` con una versión que no soporta, responde `error` (`code: "unsupported_version"`) y cierra.
+- Si el servidor recibe un `hello` con una versión que no soporta, responde `error` (`code: "unsupported_version"`) y cierra con el código `4002`. Un mensaje que no es `hello` con otra versión solo se registra y se descarta.
 
 ---
 

@@ -112,14 +112,14 @@ gantt
 
 ### Hito 1.1: Esqueleto WebSocket y protocolo
 
-- [ ] `packages/protocol`: envelope (`v`, `type`, `id?`, `ts`, `payload`) y esquemas zod de **todos** los mensajes de la sección 9 de `context.md`, con _discriminated unions_ para cliente → servidor y servidor → cliente.
-- [ ] Helpers `encode(msg)` / `decode(raw)` que validan y devuelven un resultado tipado o un error (nunca lanzan).
-- [ ] `transport/http.ts`: servidor HTTP con `/health` y servido estático de `apps/face/dist`.
-- [ ] `transport/ws-server.ts`: endpoint `/ws`, separa frames de texto (JSON) y binarios (audio), descarta y registra los inválidos.
-- [ ] Handshake `hello` → `welcome` → `state` actual.
-- [ ] Heartbeat `ping`/`pong` cada 5 s, cierre a los 15 s sin respuesta.
-- [ ] Política de **un solo rostro**: un cliente nuevo reemplaza al anterior (cierre `4001`).
-- [ ] Tests: esquemas válidos e inválidos, handshake y heartbeat con un cliente `ws` de prueba.
+- [x] `packages/protocol`: envelope (`v`, `type`, `id?`, `ts`, `payload`) y esquemas zod de **todos** los mensajes de la sección 9 de `context.md`, con _discriminated unions_ para cliente → servidor y servidor → cliente.
+- [x] Helpers `encode(msg)` / `decode(raw)` que validan y devuelven un resultado tipado o un error (nunca lanzan).
+- [x] `transport/http.ts`: servidor HTTP con `/health` y servido estático de `apps/face/dist`.
+- [x] `transport/ws-server.ts`: endpoint `/ws`, separa frames de texto (JSON) y binarios (audio), descarta y registra los inválidos.
+- [x] Handshake `hello` → `welcome` → `state` actual.
+- [x] Heartbeat `ping`/`pong` cada 5 s, cierre a los 15 s sin respuesta.
+- [x] Política de **un solo rostro**: un cliente nuevo reemplaza al anterior (cierre `4001`).
+- [x] Tests: esquemas válidos e inválidos, handshake y heartbeat con un cliente `ws` de prueba.
 
 **✅ Hecho cuando:** un script de prueba se conecta, recibe `welcome` y `state: reposo`, y el servidor registra la desconexión limpiamente.
 
