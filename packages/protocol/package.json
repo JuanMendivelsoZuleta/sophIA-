@@ -1,0 +1,21 @@
+{
+  "name": "@sophia/protocol",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tipos y esquemas zod del protocolo WebSocket entre el rostro y el servidor (context.md, sección 9).",
+  "type": "module",
+  "exports": {
+    ".": {
+      "@sophia/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit"
+  }
+}

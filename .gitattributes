@@ -1,0 +1,13 @@
+# Finales de línea LF en el repo para todos (Windows incluido); Biome formatea con LF.
+* text=auto eol=lf
+
+# Scripts de Windows con CRLF.
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Binarios
+*.onnx binary
+*.wav binary
+*.png binary
+*.jpg binary
