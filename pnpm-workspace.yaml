@@ -1,0 +1,8 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# pnpm 10 bloquea los scripts de instalación por defecto; solo se permiten estos.
+onlyBuiltDependencies:
+  - esbuild
+  - lefthook

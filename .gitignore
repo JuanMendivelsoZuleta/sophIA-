@@ -1,0 +1,27 @@
+# Dependencias y builds
+node_modules/
+dist/
+*.tsbuildinfo
+coverage/
+
+# Secretos y datos personales
+.env
+.env.*
+!.env.example
+data/
+
+# Logs
+logs/
+*.log
+
+# Modelos de wake word (se regeneran o descargan)
+models/*.onnx
+
+# Python (sidecar de wake word)
+__pycache__/
+.venv/
+
+# Editor / SO
+.DS_Store
+Thumbs.db
+.idea/
