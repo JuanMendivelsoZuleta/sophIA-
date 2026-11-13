@@ -10,6 +10,7 @@
   },
   "scripts": {
     "dev": "pnpm --filter @sophia/server dev",
+    "ws:probe": "pnpm --filter @sophia/server probe",
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "lint": "biome check .",

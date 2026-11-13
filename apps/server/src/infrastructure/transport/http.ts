@@ -2,10 +2,13 @@ import { createServer, type IncomingMessage, type Server, type ServerResponse } 
 import type { AddressInfo } from "node:net";
 import { PROTOCOL_VERSION } from "@sophia/protocol";
 import type { Logger } from "../../shared/logger.js";
+import { serveStatic } from "./static-files.js";
 
 export interface HttpServerDeps {
   readonly logger: Logger;
   readonly version: string;
+  /** Carpeta con la UI compilada (`apps/face/dist`); si no se indica o no existe, solo hay `/health`. */
+  readonly staticDir?: string;
   /** Reloj inyectable para los tests. */
   readonly now?: () => number;
 }
@@ -18,10 +21,10 @@ export interface HttpServer {
 }
 
 /**
- * Servidor HTTP del cerebro. En la Fase 0 solo expone `/health`;
- * el servido estático de la UI y el WebSocket `/ws` llegan en el hito 1.1.
+ * Servidor HTTP del cerebro: `/health` y el servido estático de la UI.
+ * El WebSocket `/ws` se engancha a `raw` desde `ws-server.ts`.
  */
-export function createHttpServer({ logger, version, now = Date.now }: HttpServerDeps): HttpServer {
+export function createHttpServer({ logger, version, staticDir, now = Date.now }: HttpServerDeps): HttpServer {
   const startedAt = now();
 
   const sendJson = (res: ServerResponse, status: number, body: unknown): void => {
@@ -29,7 +32,7 @@ export function createHttpServer({ logger, version, now = Date.now }: HttpServer
     res.end(JSON.stringify(body));
   };
 
-  const handle = (req: IncomingMessage, res: ServerResponse): void => {
+  const handle = async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
     const url = new URL(req.url ?? "/", "http://localhost");
 
     if (req.method === "GET" && url.pathname === "/health") {
@@ -42,16 +45,17 @@ export function createHttpServer({ logger, version, now = Date.now }: HttpServer
       return;
     }
 
+    if (staticDir !== undefined && (await serveStatic(staticDir, req, res))) return;
+
     sendJson(res, 404, { error: "not_found" });
   };
 
   const raw = createServer((req, res) => {
-    try {
-      handle(req, res);
-    } catch (error) {
+    handle(req, res).catch((error: unknown) => {
       logger.error({ err: error }, "error atendiendo petición HTTP");
       if (!res.headersSent) sendJson(res, 500, { error: "internal_error" });
-    }
+      else res.destroy();
+    });
   });
 
   return {
